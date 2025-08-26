@@ -44,6 +44,10 @@ var daemonCmd = &cobra.Command{
 				}
 
 				secretPassword, err := secrets.GetSecret(cfg.Username, consts.LabelPassword)
+				if err != nil {
+					fmt.Println("Ошибка получения пароля из keyring:", err)
+					return
+				}
 
 				vpnCfg := models.ConfigVPN{
 					Host:     cfg.VPNHost,
@@ -59,9 +63,9 @@ var daemonCmd = &cobra.Command{
 			} else {
 				logs.Logger.Println("[✓] VPN уже подключён.")
 			}
-		}
 
-		time.Sleep(30 * time.Second)
+			time.Sleep(30 * time.Second)
+		}
 
 	},
 }
